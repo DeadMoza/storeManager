@@ -1,5 +1,5 @@
 import 'details.dart';
-import '../theme.dart';
+import '../misc/theme.dart';
 import 'package:flutter/material.dart';
 
 class PrimaryPage extends StatefulWidget {
