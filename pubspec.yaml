@@ -22,10 +22,12 @@ dev_dependencies:
 
 flutter:
   fonts: 
-    - family: Roboto
+    - family: Rubik
       fonts:
-        - asset: fonts/Roboto-Regular.ttf
-        - asset: fonts/Roboto-Bold.ttf
+        - asset: fonts/Rubik-Regular.ttf
+        - asset: fonts/Rubik-Bold.ttf
           weight: 700
+        - asset: fonts/Rubik-Italic.ttf
+          style: italic
   uses-material-design: true
 

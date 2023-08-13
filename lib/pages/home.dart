@@ -22,6 +22,7 @@ class _PrimaryPageState extends State<PrimaryPage> {
         leading: Padding(
           padding: const EdgeInsets.only(left: 20.0),
           child: ToggleButtons(
+            borderWidth: 2.5,
             isSelected: selected,
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             fillColor: primaryColor,
@@ -31,10 +32,10 @@ class _PrimaryPageState extends State<PrimaryPage> {
             borderColor: primaryColor,
             constraints: const BoxConstraints(minHeight: 45, minWidth: 70),
             children: const [
-              Text('Long'),
-              Text('Short'),
-              Text('Skirt'),
-              Text('Jacket')
+              Text('LONG'),
+              Text('SHORT'),
+              Text('SKIRT'),
+              Text('JACKET')
             ],
             onPressed: (int index) {
               setState(() {
@@ -85,7 +86,7 @@ class _PrimaryPageState extends State<PrimaryPage> {
                       MaterialPageRoute(
                           builder: (context) => const DetailsPage()));
                 },
-                child: const Text('elo i am in otori'),
+                child: const Text('!PLACEHOLDER!'),
               ),
             ),
           );
