@@ -12,9 +12,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/',
+      routes: {'/': (context) => const PrimaryPage()},
       title: 'Flutter Demo',
       theme: appTheme(),
-      home: const PrimaryPage(),
     );
   }
 }

@@ -1,6 +1,7 @@
-import 'details.dart';
+import 'info.dart';
 import '../misc/theme.dart';
 import 'package:flutter/material.dart';
+import 'create.dart';
 
 class PrimaryPage extends StatefulWidget {
   const PrimaryPage({super.key});
@@ -55,7 +56,12 @@ class _PrimaryPageState extends State<PrimaryPage> {
             padding: const EdgeInsets.only(right: 15.0),
             child: IconButton(
               icon: const Icon(Icons.add_circle),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CreatePage()));
+              },
               color: primaryColor,
               iconSize: 40,
               highlightColor: miscColor,
@@ -68,8 +74,6 @@ class _PrimaryPageState extends State<PrimaryPage> {
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: 1,
-          mainAxisSpacing: 1,
         ),
         itemBuilder: (context, index) {
           return Padding(
@@ -86,7 +90,6 @@ class _PrimaryPageState extends State<PrimaryPage> {
                       MaterialPageRoute(
                           builder: (context) => const DetailsPage()));
                 },
-                child: const Text('!PLACEHOLDER!'),
               ),
             ),
           );

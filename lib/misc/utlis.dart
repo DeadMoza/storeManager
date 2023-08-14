@@ -17,6 +17,7 @@ SizedBox verticalSpace() {
 
 Icon colorPick(Color color) {
   return Icon(
+    size: 35,
     Icons.circle,
     color: color,
   );

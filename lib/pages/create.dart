@@ -2,14 +2,14 @@ import 'package:elshamistore/misc/theme.dart';
 import 'package:elshamistore/misc/utlis.dart';
 import 'package:flutter/material.dart';
 
-class EditPage extends StatefulWidget {
-  const EditPage({super.key});
+class CreatePage extends StatefulWidget {
+  const CreatePage({super.key});
 
   @override
-  State<EditPage> createState() => _EditPageState();
+  State<CreatePage> createState() => _CreatePageState();
 }
 
-class _EditPageState extends State<EditPage> {
+class _CreatePageState extends State<CreatePage> {
   final List<bool> selectedSize = <bool>[
     false,
     false,
