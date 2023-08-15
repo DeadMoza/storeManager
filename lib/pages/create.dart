@@ -90,24 +90,52 @@ class _CreatePageState extends State<CreatePage> {
                       iconSize: 40,
                     ),
                   ),
-                  const SizedBox(height: 25),
+                  verticalSpace(),
+                  Row(
+                    children: [
+                      stat('Price: '),
+                      Expanded(
+                        child: TextField(
+                            style: const TextStyle(fontSize: 18),
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.all(1),
+                                prefixIcon:
+                                    const Icon(Icons.attach_money_rounded),
+                                prefixIconColor: miscColor,
+                                filled: true,
+                                focusedBorder: const OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: secondaryColor)),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                constraints: const BoxConstraints(
+                                    minHeight: 40, maxHeight: 40))),
+                      ),
+                    ],
+                  ),
+                  verticalSpace(),
                   Row(
                     children: [
                       stat('Code: '),
                       Expanded(
-                          child: TextField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                            filled: true,
-                            focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: secondaryColor)),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            constraints: const BoxConstraints(
-                              maxHeight: 35,
-                            )),
-                      )),
+                        child: TextField(
+                            style: const TextStyle(fontSize: 18),
+                            decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.all(1),
+                                prefixIcon: const Icon(Icons.code_rounded),
+                                prefixIconColor: miscColor,
+                                filled: true,
+                                focusedBorder: const OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: secondaryColor)),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                constraints: const BoxConstraints(
+                                    minHeight: 40, maxHeight: 40))),
+                      ),
                     ],
                   ),
                   verticalSpace(),

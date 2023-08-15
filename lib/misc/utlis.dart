@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'theme.dart';
 
 Text stat(String title) {
   return Text(
@@ -9,9 +10,21 @@ Text stat(String title) {
   );
 }
 
+Container statContainer(Icon statIcon, Widget statValue) {
+  return Container(
+    padding: const EdgeInsets.all(10),
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      color: secondaryColor,
+    ),
+    child: Column(children: [statIcon, verticalSpace(), statValue]),
+  );
+}
+
 SizedBox verticalSpace() {
   return const SizedBox(
-    height: 15,
+    height: 18,
   );
 }
 

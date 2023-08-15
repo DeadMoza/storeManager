@@ -15,6 +15,7 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          backgroundColor: secondaryColor,
           leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
@@ -92,33 +93,25 @@ class _DetailsPageState extends State<DetailsPage> {
                 ),
               ),
               verticalSpace(),
-              Row(
+              GridView.count(
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 5,
+                crossAxisCount: 3,
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
                 children: [
-                  stat('Code: '),
-                ],
-              ),
-              verticalSpace(),
-              Row(
-                children: [
-                  stat('Size: '),
-                ],
-              ),
-              verticalSpace(),
-              Row(
-                children: [
-                  stat('Color: '),
-                ],
-              ),
-              verticalSpace(),
-              Row(
-                children: [
-                  stat('Brand: '),
-                ],
-              ),
-              verticalSpace(),
-              Row(
-                children: [
-                  stat('Type: '),
+                  statContainer(const Icon(Icons.attach_money_rounded),
+                      const Text('price')),
+                  statContainer(
+                      const Icon(Icons.code_rounded), const Text('code')),
+                  statContainer(const Icon(Icons.format_size_rounded),
+                      const Text('size')),
+                  statContainer(
+                      const Icon(Icons.color_lens), const Text('color')),
+                  statContainer(
+                      const Icon(Icons.home_work_rounded), const Text('brand')),
+                  statContainer(
+                      const Icon(Icons.type_specimen), const Text('type')),
                 ],
               ),
             ],

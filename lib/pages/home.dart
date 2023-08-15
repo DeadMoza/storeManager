@@ -83,7 +83,7 @@ class _PrimaryPageState extends State<PrimaryPage> {
                   borderRadius: BorderRadius.circular(5),
                   color: secondaryColor),
               padding: const EdgeInsets.all(5),
-              child: GestureDetector(
+              child: InkWell(
                 onTap: () {
                   Navigator.push(
                       context,
