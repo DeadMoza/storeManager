@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "981049444189",
+    "project_id": "elshamistore-c6810",
+    "storage_bucket": "elshamistore-c6810.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:981049444189:android:3aff0b873b8e4a1a294ab4",
+        "android_client_info": {
+          "package_name": "com.example.elshamistore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "981049444189-929o0cdde7vg1h04bqs38qoc7et5s26r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAljOUjs2U7VjmJ6XyUUzRM0Do8IoQrwVg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "981049444189-929o0cdde7vg1h04bqs38qoc7et5s26r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "981049444189-0opgenhra409k32r9m71b0ks0jhsj5q2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.elshamistore"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
