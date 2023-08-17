@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'theme.dart';
+
+final db = FirebaseFirestore.instance;
 
 Text stat(String title) {
   return Text(

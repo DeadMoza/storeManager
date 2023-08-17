@@ -38,6 +38,9 @@ class _EditPageState extends State<EditPage> {
 
   String typesDropDownValue = types.first;
 
+  final priceController = TextEditingController();
+  final codeController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,6 +99,7 @@ class _EditPageState extends State<EditPage> {
                       stat('Price: '),
                       Expanded(
                         child: TextField(
+                            controller: priceController,
                             style: const TextStyle(fontSize: 18),
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
@@ -121,6 +125,7 @@ class _EditPageState extends State<EditPage> {
                       stat('Code: '),
                       Expanded(
                         child: TextField(
+                            controller: codeController,
                             style: const TextStyle(fontSize: 18),
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(1),

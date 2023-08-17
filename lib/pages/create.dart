@@ -9,8 +9,23 @@ class CreatePage extends StatefulWidget {
   State<CreatePage> createState() => _CreatePageState();
 }
 
+Future createProduct(int price, String code, List sizes, String color,
+    String brand, String type) async {
+  final docProduct = db.collection('products').doc();
+  final json = {
+    'price': price,
+    'code': code,
+    'size': sizes,
+    'color': color,
+    'brand': brand,
+    'type': type,
+  };
+  await docProduct.set(json);
+}
+
 class _CreatePageState extends State<CreatePage> {
   final List<bool> selectedSize = <bool>[
+    false,
     false,
     false,
     false,
@@ -38,6 +53,39 @@ class _CreatePageState extends State<CreatePage> {
 
   String typesDropDownValue = types.first;
 
+  List<int> availableSizes = <int>[
+    36,
+    38,
+    40,
+    42,
+    44,
+    46,
+    48,
+    50,
+    52,
+    54,
+    56,
+    58
+  ];
+  List<int> sizes = [];
+
+  List<String> availableColors = <String>[
+    'Black',
+    'Blue',
+    'Dark Blue',
+    'Green',
+    'Dark Green',
+    'Red',
+    'Purple',
+    'Beige'
+  ];
+  String? choosenColor;
+  String? choosenBrand;
+  String? choosenType;
+
+  final priceController = TextEditingController();
+  final codeController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,24 +96,31 @@ class _CreatePageState extends State<CreatePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
               style: const ButtonStyle(
                   fixedSize: MaterialStatePropertyAll(Size(150, 50)),
                   backgroundColor: MaterialStatePropertyAll(secondaryColor)),
               child: const Text('CANCEL',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
             const SizedBox(width: 20),
             ElevatedButton(
-                onPressed: () {},
-                style: const ButtonStyle(
-                    fixedSize: MaterialStatePropertyAll(Size(150, 50)),
-                    backgroundColor: MaterialStatePropertyAll(secondaryColor)),
-                child: const Text('SAVE',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
+              style: const ButtonStyle(
+                  fixedSize: MaterialStatePropertyAll(Size(150, 50)),
+                  backgroundColor: MaterialStatePropertyAll(secondaryColor)),
+              child: const Text('SAVE',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              onPressed: () {
+                final productPrice = int.parse(priceController.text);
+                final productCode = codeController.text;
+                sizes.sort();
+                createProduct(productPrice, productCode, sizes, choosenColor!,
+                    choosenBrand!, choosenType!);
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
@@ -96,6 +151,7 @@ class _CreatePageState extends State<CreatePage> {
                       stat('Price: '),
                       Expanded(
                         child: TextField(
+                            controller: priceController,
                             style: const TextStyle(fontSize: 18),
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
@@ -121,6 +177,7 @@ class _CreatePageState extends State<CreatePage> {
                       stat('Code: '),
                       Expanded(
                         child: TextField(
+                            controller: codeController,
                             style: const TextStyle(fontSize: 18),
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(1),
@@ -160,6 +217,16 @@ class _CreatePageState extends State<CreatePage> {
                                           selectedSize[i] = !selectedSize[i];
                                         }
                                       }
+                                      for (int i = 0;
+                                          i < availableSizes.length;
+                                          i++) {
+                                        if (index == i && selectedSize[index]) {
+                                          sizes.add(availableSizes[i]);
+                                        } else if (index == i &&
+                                            !selectedSize[index]) {
+                                          sizes.remove(availableSizes[i]);
+                                        }
+                                      }
                                     });
                                   },
                                   borderColor: Colors.black,
@@ -178,7 +245,8 @@ class _CreatePageState extends State<CreatePage> {
                                     Text('50'),
                                     Text('52'),
                                     Text('54'),
-                                    Text('56')
+                                    Text('56'),
+                                    Text('58'),
                                   ]),
                             ],
                           ),
@@ -208,6 +276,17 @@ class _CreatePageState extends State<CreatePage> {
                                           selectedColor[i] = !selectedColor[i];
                                         } else {
                                           selectedColor[i] = false;
+                                        }
+                                      }
+                                      for (int i = 0;
+                                          i < availableColors.length;
+                                          i++) {
+                                        if (index == i &&
+                                            selectedColor[index]) {
+                                          choosenColor = availableColors[index];
+                                        } else if (index == i &&
+                                            !selectedColor[index]) {
+                                          choosenColor = null;
                                         }
                                       }
                                     });
@@ -248,6 +327,7 @@ class _CreatePageState extends State<CreatePage> {
                         onChanged: (String? value) {
                           setState(() {
                             brandsDropDownValue = value!;
+                            choosenBrand = value;
                           });
                         },
                       ),
@@ -273,6 +353,7 @@ class _CreatePageState extends State<CreatePage> {
                         onChanged: (String? value) {
                           setState(() {
                             typesDropDownValue = value!;
+                            choosenType = value;
                           });
                         },
                       ),
