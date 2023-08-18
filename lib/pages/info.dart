@@ -3,14 +3,22 @@ import 'package:flutter/material.dart';
 import '../misc/utlis.dart';
 import 'edit.dart';
 
-class DetailsPage extends StatefulWidget {
-  const DetailsPage({super.key});
+class DetailsPage extends StatelessWidget {
+  final String productStatPrice;
+  final String productStatCode;
+  final String productStatSize;
+  final String productStatColor;
+  final String productStatBrand;
+  final String productStatType;
+  const DetailsPage(
+      {super.key,
+      required this.productStatPrice,
+      required this.productStatCode,
+      required this.productStatSize,
+      required this.productStatColor,
+      required this.productStatBrand,
+      required this.productStatType});
 
-  @override
-  State<DetailsPage> createState() => _DetailsPageState();
-}
-
-class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,6 +76,12 @@ class _DetailsPageState extends State<DetailsPage> {
                                   onPressed: () {
                                     Navigator.popUntil(
                                         context, ModalRoute.withName('/'));
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text('Product Deleted'),
+                                      duration: Duration(seconds: 3),
+                                      backgroundColor: red,
+                                    ));
                                   },
                                   style: const ButtonStyle(
                                       foregroundColor:
@@ -79,7 +93,7 @@ class _DetailsPageState extends State<DetailsPage> {
               ),
             ),
           ]),
-      body: ListView(children: [
+      body: ListView(physics: const AlwaysScrollableScrollPhysics(), children: [
         Padding(
           padding: const EdgeInsets.all(5.0),
           child: Column(
@@ -98,20 +112,34 @@ class _DetailsPageState extends State<DetailsPage> {
                 crossAxisSpacing: 5,
                 crossAxisCount: 3,
                 shrinkWrap: true,
-                scrollDirection: Axis.vertical,
+                physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  statContainer(const Icon(Icons.attach_money_rounded),
-                      const Text('price')),
                   statContainer(
-                      const Icon(Icons.code_rounded), const Text('code')),
-                  statContainer(const Icon(Icons.format_size_rounded),
-                      const Text('size')),
+                    const Icon(Icons.attach_money_rounded),
+                    'Price',
+                    productStatPrice,
+                  ),
                   statContainer(
-                      const Icon(Icons.color_lens), const Text('color')),
+                    const Icon(Icons.code_rounded),
+                    'Code',
+                    productStatCode,
+                  ),
+                  sizesStatContainer(
+                    const Icon(Icons.format_size_rounded),
+                    'Sizes',
+                    productStatSize,
+                  ),
+                  colorStatContainer(productStatColor),
                   statContainer(
-                      const Icon(Icons.home_work_rounded), const Text('brand')),
+                    const Icon(Icons.home_work_rounded),
+                    'Brand',
+                    productStatBrand,
+                  ),
                   statContainer(
-                      const Icon(Icons.type_specimen), const Text('type')),
+                    const Icon(Icons.type_specimen),
+                    'Type',
+                    productStatType,
+                  ),
                 ],
               ),
             ],

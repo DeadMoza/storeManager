@@ -119,6 +119,11 @@ class _CreatePageState extends State<CreatePage> {
                 createProduct(productPrice, productCode, sizes, choosenColor!,
                     choosenBrand!, choosenType!);
                 Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Product Added!'),
+                  duration: Duration(seconds: 3),
+                  backgroundColor: green,
+                ));
               },
             ),
           ],
