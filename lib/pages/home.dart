@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'info.dart';
 import '../misc/theme.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +57,7 @@ class _PrimaryPageState extends State<PrimaryPage> {
               String color = doc['color'];
               String brand = doc['brand'];
               String type = doc['type'];
+              String image = doc['image'];
 
               return Padding(
                 padding: const EdgeInsets.all(4),
@@ -62,7 +65,6 @@ class _PrimaryPageState extends State<PrimaryPage> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: secondaryColor),
-                  padding: const EdgeInsets.all(10),
                   child: InkWell(
                     onTap: () {
                       Navigator.push(
@@ -75,35 +77,11 @@ class _PrimaryPageState extends State<PrimaryPage> {
                                     productStatColor: color,
                                     productStatBrand: brand,
                                     productStatType: type,
+                                    productStatImage: image,
                                   )));
                     },
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Text(
-                                price,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              const Spacer(),
-                              Text(
-                                brand,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              const Spacer(),
-                              Text(
-                                code,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                    child: Image.file(File(image),
+                        width: double.infinity, fit: BoxFit.cover),
                   ),
                 ),
               );

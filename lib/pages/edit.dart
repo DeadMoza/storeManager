@@ -79,19 +79,26 @@ class _EditPageState extends State<EditPage> {
               padding: const EdgeInsets.all(5.0),
               child: Column(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey[400],
-                    ),
-                    height: 350,
-                    width: 400,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.mode_edit_outline_rounded),
-                      alignment: Alignment.bottomRight,
-                      iconSize: 40,
-                    ),
+                  Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.grey[400],
+                        ),
+                        height: 350,
+                        width: 400,
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: IconButton(
+                          icon: const Icon(Icons.mode_edit_outline_rounded),
+                          iconSize: 40,
+                          onPressed: () {},
+                        ),
+                      ),
+                    ],
                   ),
                   verticalSpace(),
                   Row(

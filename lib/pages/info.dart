@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:elshamistore/misc/theme.dart';
 import 'package:flutter/material.dart';
 import '../misc/utlis.dart';
@@ -10,6 +12,7 @@ class DetailsPage extends StatelessWidget {
   final String productStatColor;
   final String productStatBrand;
   final String productStatType;
+  final String productStatImage;
   const DetailsPage(
       {super.key,
       required this.productStatPrice,
@@ -17,7 +20,8 @@ class DetailsPage extends StatelessWidget {
       required this.productStatSize,
       required this.productStatColor,
       required this.productStatBrand,
-      required this.productStatType});
+      required this.productStatType,
+      required this.productStatImage});
 
   @override
   Widget build(BuildContext context) {
@@ -99,13 +103,17 @@ class DetailsPage extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                width: 400,
-                height: 350,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.grey[400],
-                ),
-              ),
+                  width: 400,
+                  height: 350,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.grey[400],
+                  ),
+                  child: Image.file(
+                    File(productStatImage),
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  )),
               verticalSpace(),
               GridView.count(
                 mainAxisSpacing: 5,

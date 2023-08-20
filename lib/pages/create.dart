@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:elshamistore/misc/theme.dart';
 import 'package:elshamistore/misc/utlis.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class CreatePage extends StatefulWidget {
@@ -9,8 +11,20 @@ class CreatePage extends StatefulWidget {
   State<CreatePage> createState() => _CreatePageState();
 }
 
+Widget pic() {
+  if (selectedImage != null) {
+    return Image.file(
+      File(selectedImage!.path!),
+      width: double.infinity,
+      fit: BoxFit.cover,
+    );
+  } else {
+    return const Center(child: Text('Upload Image'));
+  }
+}
+
 Future createProduct(int price, String code, List sizes, String color,
-    String brand, String type) async {
+    String brand, String type, String image) async {
   final docProduct = db.collection('products').doc();
   final json = {
     'price': price,
@@ -19,11 +33,31 @@ Future createProduct(int price, String code, List sizes, String color,
     'color': color,
     'brand': brand,
     'type': type,
+    'image': image,
   };
   await docProduct.set(json);
 }
 
+PlatformFile? selectedImage;
+
 class _CreatePageState extends State<CreatePage> {
+  Future selectImage() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      setState(() {
+        selectedImage = result.files.first;
+      });
+    }
+  }
+
+  Future uploadFile() async {
+    final path = 'productImages/${selectedImage!.name}';
+    final file = File(selectedImage!.path!);
+
+    final ref = storage.child(path);
+    ref.putFile(file);
+  }
+
   final List<bool> selectedSize = <bool>[
     false,
     false,
@@ -115,9 +149,19 @@ class _CreatePageState extends State<CreatePage> {
               onPressed: () {
                 final productPrice = int.parse(priceController.text);
                 final productCode = codeController.text;
+                final productImage = selectedImage!.path!;
                 sizes.sort();
-                createProduct(productPrice, productCode, sizes, choosenColor!,
-                    choosenBrand!, choosenType!);
+                createProduct(
+                  productPrice,
+                  productCode,
+                  sizes,
+                  choosenColor!,
+                  choosenBrand!,
+                  choosenType!,
+                  productImage,
+                );
+                uploadFile();
+                selectedImage = null;
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text('Product Added!'),
@@ -136,19 +180,27 @@ class _CreatePageState extends State<CreatePage> {
               padding: const EdgeInsets.all(5.0),
               child: Column(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey[400],
-                    ),
-                    height: 350,
-                    width: 400,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.mode_edit_outline_rounded),
-                      alignment: Alignment.bottomRight,
-                      iconSize: 40,
-                    ),
+                  Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.grey[400],
+                        ),
+                        height: 350,
+                        width: 400,
+                        child: pic(),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: IconButton(
+                          icon: const Icon(Icons.mode_edit_outline_rounded),
+                          iconSize: 40,
+                          onPressed: selectImage,
+                        ),
+                      ),
+                    ],
                   ),
                   verticalSpace(),
                   Row(
