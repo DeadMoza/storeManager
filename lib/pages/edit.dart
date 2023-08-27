@@ -21,7 +21,11 @@ class _EditPageState extends State<EditPage> {
     false,
     false,
     false,
-    false
+    false,
+    false,
+    false,
+    false,
+    false,
   ];
   final List<bool> selectedColor = <bool>[
     false,
@@ -45,7 +49,7 @@ class _EditPageState extends State<EditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        color: primaryColor,
+        color: beige,
         height: 80,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -56,19 +60,24 @@ class _EditPageState extends State<EditPage> {
               },
               style: const ButtonStyle(
                   fixedSize: MaterialStatePropertyAll(Size(150, 50)),
-                  backgroundColor: MaterialStatePropertyAll(secondaryColor)),
+                  backgroundColor: MaterialStatePropertyAll(primaryColor)),
               child: const Text('CANCEL',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  )),
             ),
             const SizedBox(width: 20),
             ElevatedButton(
                 onPressed: () {},
                 style: const ButtonStyle(
                     fixedSize: MaterialStatePropertyAll(Size(150, 50)),
-                    backgroundColor: MaterialStatePropertyAll(secondaryColor)),
+                    backgroundColor: MaterialStatePropertyAll(primaryColor)),
                 child: const Text('SAVE',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ))),
           ],
         ),
       ),
@@ -117,7 +126,7 @@ class _EditPageState extends State<EditPage> {
                                 filled: true,
                                 focusedBorder: const OutlineInputBorder(
                                     borderSide:
-                                        BorderSide(color: secondaryColor)),
+                                        BorderSide(color: primaryColor)),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -141,7 +150,7 @@ class _EditPageState extends State<EditPage> {
                                 filled: true,
                                 focusedBorder: const OutlineInputBorder(
                                     borderSide:
-                                        BorderSide(color: secondaryColor)),
+                                        BorderSide(color: primaryColor)),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -178,7 +187,7 @@ class _EditPageState extends State<EditPage> {
                                   borderRadius: BorderRadius.circular(8),
                                   selectedColor: miscColor,
                                   selectedBorderColor: miscColor,
-                                  fillColor: secondaryColor,
+                                  fillColor: primaryColor,
                                   children: const [
                                     Text('36'),
                                     Text('38'),
@@ -190,7 +199,11 @@ class _EditPageState extends State<EditPage> {
                                     Text('50'),
                                     Text('52'),
                                     Text('54'),
-                                    Text('56')
+                                    Text('56'),
+                                    Text('6'),
+                                    Text('7'),
+                                    Text('8'),
+                                    Text('9'),
                                   ]),
                             ],
                           ),
@@ -225,7 +238,7 @@ class _EditPageState extends State<EditPage> {
                                     });
                                   },
                                   renderBorder: false,
-                                  fillColor: secondaryColor,
+                                  fillColor: primaryColor,
                                   children: [
                                     colorPick(black),
                                     colorPick(blue),
@@ -248,7 +261,7 @@ class _EditPageState extends State<EditPage> {
                         borderRadius: BorderRadius.circular(5),
                         icon: const Icon(Icons.keyboard_arrow_down_rounded),
                         iconSize: 30,
-                        dropdownColor: secondaryColor,
+                        dropdownColor: primaryColor,
                         value: brandsDropDownValue,
                         items: brands
                             .map<DropdownMenuItem<String>>((String value) {
@@ -273,7 +286,7 @@ class _EditPageState extends State<EditPage> {
                         borderRadius: BorderRadius.circular(5),
                         icon: const Icon(Icons.keyboard_arrow_down_rounded),
                         iconSize: 30,
-                        dropdownColor: secondaryColor,
+                        dropdownColor: primaryColor,
                         value: typesDropDownValue,
                         items:
                             types.map<DropdownMenuItem<String>>((String value) {

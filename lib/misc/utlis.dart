@@ -29,67 +29,61 @@ Icon colorPick(Color color) {
   );
 }
 
-List<String> brands = <String>['none', 'VALLS', 'BALERINA', 'ROZEŞA'];
+List<String> brands = <String>[
+  'NONE',
+  'VALLS',
+  'BALERINA',
+  'ROZEŞA',
+  'PLACEHOLDER',
+  'PLACEHOLDER2',
+  'PLACEHOLDER3',
+  'PLACEHOLDER4',
+];
 List<String> types = <String>[
   'Long',
   'Short',
   'Skirt/\nTrousers',
   'Jacket/\nBlouse'
 ];
+
+List<int> availableSizes = <int>[
+  36,
+  38,
+  40,
+  42,
+  44,
+  46,
+  48,
+  50,
+  52,
+  54,
+  56,
+  58,
+  6,
+  7,
+  8,
+  9,
+];
+
 Container statContainer(
   Icon statIcon,
-  String statLabel,
+  String statTitle,
   String statValue,
+  double textSize,
 ) {
   return Container(
     padding: const EdgeInsets.all(6),
     alignment: Alignment.center,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
-      color: secondaryColor,
+      color: primaryColor,
     ),
     child: Column(children: [
       Row(
         children: [
           statIcon,
           Text(
-            statLabel,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          )
-        ],
-      ),
-      const SizedBox(
-        height: 10,
-      ),
-      FittedBox(
-        child: Text(
-          statValue,
-        ),
-      )
-    ]),
-  );
-}
-
-Container sizesStatContainer(
-  Icon statIcon,
-  String statLabel,
-  String statValue,
-) {
-  return Container(
-    padding: const EdgeInsets.all(6),
-    alignment: Alignment.center,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10),
-      color: secondaryColor,
-    ),
-    child: Column(children: [
-      Row(
-        children: [
-          statIcon,
-          Text(
-            statLabel,
+            statTitle,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
@@ -101,6 +95,10 @@ Container sizesStatContainer(
       ),
       Text(
         statValue,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: textSize,
+        ),
       )
     ]),
   );
@@ -113,7 +111,7 @@ Container colorStatContainer(String color) {
     alignment: Alignment.center,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
-      color: secondaryColor,
+      color: primaryColor,
     ),
     child: Column(children: [
       const Row(
@@ -135,6 +133,7 @@ Container colorStatContainer(String color) {
           FittedBox(
             child: Text(
               color,
+              style: const TextStyle(fontSize: 20),
             ),
           ),
           if (color == 'Black')
@@ -147,7 +146,7 @@ Container colorStatContainer(String color) {
               icon,
               color: blue,
             )
-          else if (color == 'Dark Blue')
+          else if (color == 'Dark\nBlue')
             Icon(
               icon,
               color: darkBlue,
@@ -157,7 +156,7 @@ Container colorStatContainer(String color) {
               icon,
               color: green,
             )
-          else if (color == 'Dark Green')
+          else if (color == 'Dark\nGreen')
             Icon(
               icon,
               color: darkGreen,

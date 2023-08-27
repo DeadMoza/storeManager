@@ -23,8 +23,15 @@ Widget pic() {
   }
 }
 
-Future createProduct(int price, String code, List sizes, String color,
-    String brand, String type, String image) async {
+Future createProduct(
+  int price,
+  String code,
+  List sizes,
+  String color,
+  String brand,
+  String type,
+  String image,
+) async {
   final docProduct = db.collection('products').doc();
   final json = {
     'price': price,
@@ -34,6 +41,8 @@ Future createProduct(int price, String code, List sizes, String color,
     'brand': brand,
     'type': type,
     'image': image,
+    'image_name': selectedImage!.name,
+    'id': docProduct.id
   };
   await docProduct.set(json);
 }
@@ -70,6 +79,10 @@ class _CreatePageState extends State<CreatePage> {
     false,
     false,
     false,
+    false,
+    false,
+    false,
+    false,
     false
   ];
   final List<bool> selectedColor = <bool>[
@@ -87,28 +100,14 @@ class _CreatePageState extends State<CreatePage> {
 
   String typesDropDownValue = types.first;
 
-  List<int> availableSizes = <int>[
-    36,
-    38,
-    40,
-    42,
-    44,
-    46,
-    48,
-    50,
-    52,
-    54,
-    56,
-    58
-  ];
   List<int> sizes = [];
 
   List<String> availableColors = <String>[
     'Black',
     'Blue',
-    'Dark Blue',
+    'Dark\nBlue',
     'Green',
-    'Dark Green',
+    'Dark\nGreen',
     'Red',
     'Purple',
     'Beige'
@@ -124,7 +123,7 @@ class _CreatePageState extends State<CreatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        color: primaryColor,
+        color: beige,
         height: 80,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -132,10 +131,11 @@ class _CreatePageState extends State<CreatePage> {
             ElevatedButton(
               style: const ButtonStyle(
                   fixedSize: MaterialStatePropertyAll(Size(150, 50)),
-                  backgroundColor: MaterialStatePropertyAll(secondaryColor)),
+                  backgroundColor: MaterialStatePropertyAll(primaryColor)),
               child: const Text('CANCEL',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               onPressed: () {
+                selectedImage = null;
                 Navigator.pop(context);
               },
             ),
@@ -143,7 +143,7 @@ class _CreatePageState extends State<CreatePage> {
             ElevatedButton(
               style: const ButtonStyle(
                   fixedSize: MaterialStatePropertyAll(Size(150, 50)),
-                  backgroundColor: MaterialStatePropertyAll(secondaryColor)),
+                  backgroundColor: MaterialStatePropertyAll(primaryColor)),
               child: const Text('SAVE',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               onPressed: () {
@@ -184,12 +184,14 @@ class _CreatePageState extends State<CreatePage> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                           color: Colors.grey[400],
                         ),
                         height: 350,
                         width: 400,
-                        child: pic(),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: pic()),
                       ),
                       Positioned(
                         bottom: 0,
@@ -219,7 +221,7 @@ class _CreatePageState extends State<CreatePage> {
                                 filled: true,
                                 focusedBorder: const OutlineInputBorder(
                                     borderSide:
-                                        BorderSide(color: secondaryColor)),
+                                        BorderSide(color: primaryColor)),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -243,7 +245,7 @@ class _CreatePageState extends State<CreatePage> {
                                 filled: true,
                                 focusedBorder: const OutlineInputBorder(
                                     borderSide:
-                                        BorderSide(color: secondaryColor)),
+                                        BorderSide(color: primaryColor)),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -290,7 +292,7 @@ class _CreatePageState extends State<CreatePage> {
                                   borderRadius: BorderRadius.circular(8),
                                   selectedColor: miscColor,
                                   selectedBorderColor: miscColor,
-                                  fillColor: secondaryColor,
+                                  fillColor: primaryColor,
                                   children: const [
                                     Text('36'),
                                     Text('38'),
@@ -304,6 +306,10 @@ class _CreatePageState extends State<CreatePage> {
                                     Text('54'),
                                     Text('56'),
                                     Text('58'),
+                                    Text('6'),
+                                    Text('7'),
+                                    Text('8'),
+                                    Text('9'),
                                   ]),
                             ],
                           ),
@@ -349,7 +355,7 @@ class _CreatePageState extends State<CreatePage> {
                                     });
                                   },
                                   renderBorder: false,
-                                  fillColor: secondaryColor,
+                                  fillColor: primaryColor,
                                   children: [
                                     colorPick(black),
                                     colorPick(blue),
@@ -372,7 +378,7 @@ class _CreatePageState extends State<CreatePage> {
                         borderRadius: BorderRadius.circular(5),
                         icon: const Icon(Icons.keyboard_arrow_down_rounded),
                         iconSize: 30,
-                        dropdownColor: secondaryColor,
+                        dropdownColor: primaryColor,
                         value: brandsDropDownValue,
                         items: brands
                             .map<DropdownMenuItem<String>>((String value) {
@@ -398,7 +404,7 @@ class _CreatePageState extends State<CreatePage> {
                         borderRadius: BorderRadius.circular(5),
                         icon: const Icon(Icons.keyboard_arrow_down_rounded),
                         iconSize: 30,
-                        dropdownColor: secondaryColor,
+                        dropdownColor: primaryColor,
                         value: typesDropDownValue,
                         items:
                             types.map<DropdownMenuItem<String>>((String value) {

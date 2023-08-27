@@ -13,6 +13,8 @@ class DetailsPage extends StatelessWidget {
   final String productStatBrand;
   final String productStatType;
   final String productStatImage;
+  final String productStatImageName;
+  final String productStatId;
   const DetailsPage(
       {super.key,
       required this.productStatPrice,
@@ -21,13 +23,15 @@ class DetailsPage extends StatelessWidget {
       required this.productStatColor,
       required this.productStatBrand,
       required this.productStatType,
-      required this.productStatImage});
+      required this.productStatImage,
+      required this.productStatImageName,
+      required this.productStatId});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: secondaryColor,
+          backgroundColor: primaryColor,
           leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
@@ -35,8 +39,8 @@ class DetailsPage extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_rounded),
             iconSize: 35,
             padding: const EdgeInsets.only(left: 5),
-            splashColor: secondaryColor,
-            highlightColor: secondaryColor,
+            splashColor: primaryColor,
+            highlightColor: primaryColor,
             splashRadius: 25,
           ),
           actions: [
@@ -47,16 +51,16 @@ class DetailsPage extends StatelessWidget {
               },
               icon: const Icon(Icons.edit),
               iconSize: 32,
-              splashColor: secondaryColor,
-              highlightColor: secondaryColor,
+              splashColor: primaryColor,
+              highlightColor: primaryColor,
               splashRadius: 25,
             ),
             Padding(
               padding: const EdgeInsets.only(right: 5),
               child: IconButton(
                 icon: const Icon(Icons.delete),
-                splashColor: secondaryColor,
-                highlightColor: secondaryColor,
+                splashColor: primaryColor,
+                highlightColor: primaryColor,
                 splashRadius: 25,
                 iconSize: 35,
                 onPressed: () {
@@ -69,28 +73,39 @@ class DetailsPage extends StatelessWidget {
                                 color: Colors.black, fontSize: 20),
                             actions: <Widget>[
                               TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  style: const ButtonStyle(
-                                      foregroundColor:
-                                          MaterialStatePropertyAll(miscColor)),
-                                  child: const Text('Cancel')),
+                                style: const ButtonStyle(
+                                    foregroundColor:
+                                        MaterialStatePropertyAll(miscColor)),
+                                child: const Text('Cancel'),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
                               TextButton(
-                                  onPressed: () {
-                                    Navigator.popUntil(
-                                        context, ModalRoute.withName('/'));
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(const SnackBar(
-                                      content: Text('Product Deleted'),
-                                      duration: Duration(seconds: 3),
-                                      backgroundColor: red,
-                                    ));
-                                  },
-                                  style: const ButtonStyle(
-                                      foregroundColor:
-                                          MaterialStatePropertyAll(miscColor)),
-                                  child: const Text('Delete')),
+                                style: const ButtonStyle(
+                                    foregroundColor:
+                                        MaterialStatePropertyAll(miscColor)),
+                                child: const Text('Delete'),
+                                onPressed: () {
+                                  final docProduct = db
+                                      .collection('products')
+                                      .doc(productStatId);
+
+                                  final docImage = storage.child(
+                                      'productImages/$productStatImageName');
+
+                                  docProduct.delete();
+                                  docImage.delete();
+                                  Navigator.popUntil(
+                                      context, ModalRoute.withName('/'));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text('Product Deleted'),
+                                    duration: Duration(seconds: 3),
+                                    backgroundColor: red,
+                                  ));
+                                },
+                              ),
                             ],
                           )));
                 },
@@ -106,18 +121,21 @@ class DetailsPage extends StatelessWidget {
                   width: 400,
                   height: 350,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(5),
                     color: Colors.grey[400],
                   ),
-                  child: Image.file(
-                    File(productStatImage),
-                    fit: BoxFit.cover,
-                    width: double.infinity,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Image.file(
+                      File(productStatImage),
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
                   )),
               verticalSpace(),
               GridView.count(
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 5,
+                mainAxisSpacing: 2,
+                crossAxisSpacing: 2,
                 crossAxisCount: 3,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -126,30 +144,42 @@ class DetailsPage extends StatelessWidget {
                     const Icon(Icons.attach_money_rounded),
                     'Price',
                     productStatPrice,
+                    20,
                   ),
                   statContainer(
                     const Icon(Icons.code_rounded),
                     'Code',
                     productStatCode,
+                    20,
                   ),
-                  sizesStatContainer(
+                  statContainer(
                     const Icon(Icons.format_size_rounded),
                     'Sizes',
                     productStatSize,
+                    16,
                   ),
                   colorStatContainer(productStatColor),
                   statContainer(
-                    const Icon(Icons.home_work_rounded),
+                    const Icon(Icons.south_america_outlined),
                     'Brand',
                     productStatBrand,
+                    20,
                   ),
                   statContainer(
-                    const Icon(Icons.type_specimen),
+                    const Icon(Icons.store),
                     'Type',
                     productStatType,
+                    20,
                   ),
                 ],
               ),
+              verticalSpace(),
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  '6 = L = 42-44\n7 = XL = 46-48\n8 = XXL = 50-52\n9 = 3XL = 54-56',
+                ),
+              )
             ],
           ),
         ),
