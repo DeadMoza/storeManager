@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: {'/': (context) => const PrimaryPage()},
-      title: 'Flutter Demo',
+      title: 'Elshami Store',
       theme: appTheme(),
     );
   }

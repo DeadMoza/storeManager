@@ -102,22 +102,12 @@ class _CreatePageState extends State<CreatePage> {
 
   List<int> sizes = [];
 
-  List<String> availableColors = <String>[
-    'Black',
-    'Blue',
-    'Dark\nBlue',
-    'Green',
-    'Dark\nGreen',
-    'Red',
-    'Purple',
-    'Beige'
-  ];
   String? choosenColor;
   String? choosenBrand;
   String? choosenType;
 
-  final priceController = TextEditingController();
-  final codeController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController codeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

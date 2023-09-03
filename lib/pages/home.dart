@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:elshamistore/pages/settings.dart';
 import 'info.dart';
 import '../misc/theme.dart';
 import 'package:flutter/material.dart';
@@ -13,26 +14,60 @@ class PrimaryPage extends StatefulWidget {
 }
 
 class _PrimaryPageState extends State<PrimaryPage> {
-  int drawerIndex = 0;
+  final TextEditingController searchController = TextEditingController();
 
-  void drawerOnTap(int index) {
+  int typeDrawerIndex = 0;
+  int brandDrawerIndex = 0;
+
+  void typeDrawerOnTap(int index) {
     setState(() {
-      drawerIndex = index;
+      typeDrawerIndex = index;
     });
   }
 
-  ListTile tile(String label, int i) {
+  void brandDrawerOnTap(int index) {
+    setState(() {
+      brandDrawerIndex = index;
+    });
+  }
+
+  ListTile typeTile(String label, int i) {
     return ListTile(
+        selectedColor: miscColor,
+        textColor: miscColor,
+        splashColor: primaryColor,
+        selectedTileColor: primaryColor,
         dense: true,
         visualDensity: const VisualDensity(vertical: -4),
         title: Text(
           label,
-          style: const TextStyle(fontSize: 15),
+          style: const TextStyle(
+            fontSize: 16,
+          ),
         ),
-        selected: drawerIndex == i,
+        selected: typeDrawerIndex == i,
         onTap: () {
-          drawerOnTap(i);
-          Navigator.pop(context);
+          typeDrawerOnTap(i);
+        });
+  }
+
+  ListTile brandTile(String label, int i) {
+    return ListTile(
+        selectedColor: miscColor,
+        textColor: miscColor,
+        splashColor: primaryColor,
+        selectedTileColor: primaryColor,
+        dense: true,
+        visualDensity: const VisualDensity(vertical: -4),
+        title: Text(
+          label,
+          style: const TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        selected: brandDrawerIndex == i,
+        onTap: () {
+          brandDrawerOnTap(i);
         });
   }
 
@@ -43,31 +78,58 @@ class _PrimaryPageState extends State<PrimaryPage> {
         backgroundColor: beige,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         width: 195,
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Column(children: [
-              tile('All Dresses', 0),
-              const Divider(),
-              tile('Long Dresses', 1),
-              const Divider(),
-              tile('Short Dresses', 2),
-              const Divider(),
-              tile('Jackets And Blouse', 3),
-              const Divider(),
-              tile('Trousers And Skirts', 4),
-              const Expanded(
-                child: Align(
-                  alignment: FractionalOffset.bottomLeft,
-                  child: ListTile(
-                    leading: Icon(Icons.account_tree_outlined),
-                    title: Text('Version 1.0.0'),
-                  ),
-                ),
-              )
-            ]),
+        child: ListView(padding: EdgeInsets.zero, children: [
+          const SizedBox(
+            height: 125,
+            child: DrawerHeader(
+              decoration: BoxDecoration(color: primaryColor),
+              child: Text("Elshami Store",
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: miscColor,
+                      fontWeight: FontWeight.bold)),
+            ),
           ),
-        ),
+          typeTile('All Dresses', 0),
+          typeTile('Long Dresses', 1),
+          typeTile('Short Dresses', 2),
+          typeTile('Jackets And Blouse', 3),
+          typeTile('Trousers And Skirts', 4),
+          const Divider(),
+          brandTile('All Dresses', 0),
+          for (int i = 1; i < brands.length; i++) brandTile(brands[i], i),
+          const Divider(),
+          ListTile(
+            dense: true,
+            visualDensity: const VisualDensity(vertical: -4),
+            horizontalTitleGap: 0,
+            title: const Text(
+              'Settings',
+              style: TextStyle(fontSize: 16),
+            ),
+            leading: const Icon(
+              Icons.settings_rounded,
+            ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SettingsPage()));
+            },
+          ),
+          const ListTile(
+            dense: true,
+            visualDensity: VisualDensity(vertical: -4),
+            horizontalTitleGap: 0,
+            leading: Icon(
+              Icons.account_tree_outlined,
+            ),
+            title: Text(
+              'Version 1.0.0',
+              style: TextStyle(fontSize: 16),
+            ),
+          )
+        ]),
       ),
       appBar: AppBar(
           backgroundColor: primaryColor,
@@ -84,73 +146,22 @@ class _PrimaryPageState extends State<PrimaryPage> {
               },
             );
           }),
-          title: SearchAnchor(
-            isFullScreen: false,
-            viewBackgroundColor: beige,
-            viewConstraints: const BoxConstraints(
-              maxHeight: 300,
+          title: TextField(
+            controller: searchController,
+            decoration: InputDecoration(
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: miscColor)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              constraints: const BoxConstraints(maxHeight: 40, minHeight: 35),
+              contentPadding: const EdgeInsets.all(5),
+              prefixIcon: const Icon(Icons.search_rounded),
+              prefixIconColor: miscColor,
+              filled: true,
+              hintText: 'Search Code',
             ),
-            dividerColor: miscColor,
-            viewShape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            viewLeading: IconButton(
-                iconSize: 27,
-                color: miscColor,
-                highlightColor: miscColor,
-                splashRadius: 25,
-                splashColor: miscColor,
-                icon: const Icon(Icons.arrow_back_rounded),
-                onPressed: () {
-                  Navigator.pop(context);
-                  //FocusManager.instance.primaryFocus?.unfocus();
-                }),
-            viewTrailing: const Iterable.empty(),
-            builder: (context, searchController) {
-              return SearchBar(
-                controller: searchController,
-                leading: const Icon(
-                  Icons.search,
-                  color: miscColor,
-                ),
-                trailing: List<IconButton>.generate(
-                    1,
-                    (index) => IconButton(
-                          padding: const EdgeInsets.only(bottom: 0, left: 10),
-                          color: miscColor,
-                          highlightColor: miscColor,
-                          splashRadius: 25,
-                          splashColor: miscColor,
-                          icon: const Icon(Icons.clear_rounded),
-                          onPressed: () => searchController.clear(),
-                        )),
-                constraints: const BoxConstraints(maxHeight: 45, minHeight: 35),
-                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5))),
-                shadowColor: MaterialStateColor.resolveWith(
-                    (states) => Colors.transparent),
-                backgroundColor:
-                    MaterialStateColor.resolveWith((states) => beige),
-                padding: MaterialStateProperty.all(const EdgeInsets.all(4)),
-                onTap: () {
-                  searchController.openView();
-                },
-              );
-            },
-            suggestionsBuilder: (context, searchController) {
-              return List<ListTile>.generate(brands.length, (index) {
-                return ListTile(
-                  title: Text(brands[index]),
-                  trailing: const Icon(Icons.numbers),
-                  onTap: () {
-                    setState(() {
-                      searchController.closeView(
-                        brands[index],
-                      );
-                    });
-                  },
-                );
-              });
-            },
+            cursorColor: miscColor,
           ),
           actions: [
             IconButton(

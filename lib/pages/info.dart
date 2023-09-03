@@ -34,7 +34,7 @@ class DetailsPage extends StatelessWidget {
           backgroundColor: primaryColor,
           leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.popAndPushNamed(context, '/');
             },
             icon: const Icon(Icons.arrow_back_rounded),
             iconSize: 35,
@@ -46,8 +46,19 @@ class DetailsPage extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const EditPage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditPage(
+                            price: productStatPrice,
+                            code: productStatCode,
+                            size: productStatSize.split(','),
+                            color: productStatColor,
+                            brand: productStatBrand,
+                            type: productStatType,
+                            image: productStatImage,
+                            imageName: productStatImageName,
+                            id: productStatId)));
               },
               icon: const Icon(Icons.edit),
               iconSize: 32,
@@ -177,7 +188,7 @@ class DetailsPage extends StatelessWidget {
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  '6 = L = 42-44\n7 = XL = 46-48\n8 = XXL = 50-52\n9 = 3XL = 54-56',
+                  '6 =   L    = 42-44\n7 =  XL   = 46-48\n8 = XXL = 50-52\n9 = 3XL = 54-56',
                 ),
               )
             ],

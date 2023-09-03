@@ -30,14 +30,10 @@ Icon colorPick(Color color) {
 }
 
 List<String> brands = <String>[
-  'NONE',
-  'VALLS',
-  'BALERINA',
-  'ROZEŞA',
-  'PLACEHOLDER',
-  'PLACEHOLDER2',
-  'PLACEHOLDER3',
-  'PLACEHOLDER4',
+  'None',
+  'Valls',
+  'Balerina',
+  'Rozeşa',
 ];
 List<String> types = <String>[
   'Long',
@@ -46,7 +42,7 @@ List<String> types = <String>[
   'Jacket/\nBlouse'
 ];
 
-List<int> availableSizes = <int>[
+final List<int> availableSizes = <int>[
   36,
   38,
   40,
@@ -65,6 +61,16 @@ List<int> availableSizes = <int>[
   9,
 ];
 
+List<String> availableColors = <String>[
+  'Black',
+  'Blue',
+  'Dark\nBlue',
+  'Green',
+  'Dark\nGreen',
+  'Red',
+  'Purple',
+  'Beige'
+];
 Container statContainer(
   Icon statIcon,
   String statTitle,
