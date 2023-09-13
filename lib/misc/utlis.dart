@@ -29,18 +29,14 @@ Icon colorPick(Color color) {
   );
 }
 
-List<String> brands = <String>[
-  'None',
-  'Valls',
-  'Balerina',
-  'Rozeşa',
-];
 List<String> types = <String>[
   'Long',
   'Short',
-  'Skirt/\nTrousers',
-  'Jacket/\nBlouse'
+  'Jacket/\nBlouse',
+  'Skirt/\nTrousers'
 ];
+
+List<String> brands = <String>[];
 
 final List<int> availableSizes = <int>[
   36,
@@ -139,7 +135,9 @@ Container colorStatContainer(String color) {
           FittedBox(
             child: Text(
               color,
-              style: const TextStyle(fontSize: 20),
+              style: (color == 'Dark\nBlue' || color == 'Dark\nGreen')
+                  ? const TextStyle(fontSize: 14)
+                  : const TextStyle(fontSize: 20),
             ),
           ),
           if (color == 'Black')

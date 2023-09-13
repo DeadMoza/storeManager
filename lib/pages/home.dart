@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elshamistore/pages/settings.dart';
 import 'info.dart';
 import '../misc/theme.dart';
@@ -15,23 +15,18 @@ class PrimaryPage extends StatefulWidget {
 
 class _PrimaryPageState extends State<PrimaryPage> {
   final TextEditingController searchController = TextEditingController();
+  String? searchResult;
 
-  int typeDrawerIndex = 0;
-  int brandDrawerIndex = 0;
+  int drawerIndex = 0;
 
-  void typeDrawerOnTap(int index) {
+  void drawerOnTap(int index) {
     setState(() {
-      typeDrawerIndex = index;
+      drawerIndex = index;
+      Navigator.pop(context);
     });
   }
 
-  void brandDrawerOnTap(int index) {
-    setState(() {
-      brandDrawerIndex = index;
-    });
-  }
-
-  ListTile typeTile(String label, int i) {
+  ListTile drawerTile(String label, int i) {
     return ListTile(
         selectedColor: miscColor,
         textColor: miscColor,
@@ -45,30 +40,29 @@ class _PrimaryPageState extends State<PrimaryPage> {
             fontSize: 16,
           ),
         ),
-        selected: typeDrawerIndex == i,
+        selected: drawerIndex == i,
         onTap: () {
-          typeDrawerOnTap(i);
+          drawerOnTap(i);
         });
   }
 
-  ListTile brandTile(String label, int i) {
-    return ListTile(
-        selectedColor: miscColor,
-        textColor: miscColor,
-        splashColor: primaryColor,
-        selectedTileColor: primaryColor,
-        dense: true,
-        visualDensity: const VisualDensity(vertical: -4),
-        title: Text(
-          label,
-          style: const TextStyle(
-            fontSize: 16,
-          ),
-        ),
-        selected: brandDrawerIndex == i,
-        onTap: () {
-          brandDrawerOnTap(i);
-        });
+  @override
+  void initState() {
+    super.initState();
+    getBrands();
+  }
+
+  void getBrands() async {
+    DocumentSnapshot docBrands =
+        await db.collection('settings').doc('brands').get();
+
+    List<dynamic> firestoreArray = docBrands.get('brand list') ?? [];
+    List<String> convertedList =
+        firestoreArray.map((item) => item.toString()).toList();
+
+    setState(() {
+      brands = convertedList;
+    });
   }
 
   @override
@@ -90,14 +84,14 @@ class _PrimaryPageState extends State<PrimaryPage> {
                       fontWeight: FontWeight.bold)),
             ),
           ),
-          typeTile('All Dresses', 0),
-          typeTile('Long Dresses', 1),
-          typeTile('Short Dresses', 2),
-          typeTile('Jackets And Blouse', 3),
-          typeTile('Trousers And Skirts', 4),
+          drawerTile('All Dresses', 0),
           const Divider(),
-          brandTile('All Dresses', 0),
-          for (int i = 1; i < brands.length; i++) brandTile(brands[i], i),
+          drawerTile('Long Dresses', 1),
+          drawerTile('Short Dresses', 2),
+          drawerTile('Jackets And Blouse', 3),
+          drawerTile('Skirts And Trousers', 4),
+          const Divider(),
+          for (int i = 0; i < brands.length; i++) drawerTile(brands[i], i + 5),
           const Divider(),
           ListTile(
             dense: true,
@@ -117,18 +111,6 @@ class _PrimaryPageState extends State<PrimaryPage> {
                       builder: (context) => const SettingsPage()));
             },
           ),
-          const ListTile(
-            dense: true,
-            visualDensity: VisualDensity(vertical: -4),
-            horizontalTitleGap: 0,
-            leading: Icon(
-              Icons.account_tree_outlined,
-            ),
-            title: Text(
-              'Version 1.0.0',
-              style: TextStyle(fontSize: 16),
-            ),
-          )
         ]),
       ),
       appBar: AppBar(
@@ -155,13 +137,34 @@ class _PrimaryPageState extends State<PrimaryPage> {
                 borderRadius: BorderRadius.circular(5),
               ),
               constraints: const BoxConstraints(maxHeight: 40, minHeight: 35),
-              contentPadding: const EdgeInsets.all(5),
+              contentPadding: const EdgeInsets.symmetric(vertical: 15),
               prefixIcon: const Icon(Icons.search_rounded),
               prefixIconColor: miscColor,
               filled: true,
-              hintText: 'Search Code',
+              labelText: 'Search Code',
+              labelStyle: const TextStyle(color: miscColor),
+              suffix: IconButton(
+                  color: miscColor,
+                  highlightColor: miscColor,
+                  splashRadius: 25,
+                  splashColor: miscColor,
+                  icon: const Icon(Icons.clear_rounded),
+                  onPressed: () {
+                    searchController.clear();
+                    setState(() {
+                      drawerIndex = 0;
+                    });
+                  }),
             ),
             cursorColor: miscColor,
+            onSubmitted: (value) {
+              setState(() {
+                if (searchController.text.isNotEmpty) {
+                  searchResult = value;
+                  drawerIndex = -1;
+                }
+              });
+            },
           ),
           actions: [
             IconButton(
@@ -180,10 +183,32 @@ class _PrimaryPageState extends State<PrimaryPage> {
             ),
           ]),
       body: StreamBuilder(
-        stream: db.collection('products').snapshots(),
+        stream: (drawerIndex > 0 && drawerIndex <= 4)
+            ? db
+                .collection('products')
+                .where('type', isEqualTo: types[drawerIndex - 1])
+                .snapshots()
+            : drawerIndex > 4
+                ? db
+                    .collection('products')
+                    .where('brand', isEqualTo: brands[drawerIndex - 5])
+                    .snapshots()
+                : drawerIndex == 0
+                    ? db.collection('products').snapshots()
+                    : db
+                        .collection('products')
+                        .where('code', isEqualTo: searchResult)
+                        .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.data!.docs.isEmpty) {
+            return const Center(
+              child: Text(
+                'No Results',
+                style: TextStyle(fontSize: 25, color: miscColor),
+              ),
+            );
           }
           return GridView.builder(
             itemCount: snapshot.data?.docs.length,
@@ -191,7 +216,7 @@ class _PrimaryPageState extends State<PrimaryPage> {
               crossAxisCount: 2,
             ),
             itemBuilder: (context, index) {
-              var doc = snapshot.data?.docs[index].data();
+              final doc = snapshot.data?.docs[index].data();
               String price = doc!['price'].toString();
               String code = doc['code'];
               List sizes = doc['size'];
@@ -227,10 +252,28 @@ class _PrimaryPageState extends State<PrimaryPage> {
                         color: primaryColor),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(5),
-                      child: Image.file(
-                        File(image),
+                      child: Image.network(
+                        'https://firebasestorage.googleapis.com/v0/b/elshamistore-c6810.appspot.com/o/productImages%2F$imageName?alt=media',
                         fit: BoxFit.cover,
                         width: double.infinity,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                              child: CircularProgressIndicator(
+                            color: miscColor,
+                            semanticsLabel: 'Loading',
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : null,
+                          ));
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          // ignore: avoid_print
+                          print('Error Loading Image In Home Page $error');
+                          return const Center(
+                              child: Text('Error Loading Image'));
+                        },
                       ),
                     ),
                   ),

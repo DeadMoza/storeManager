@@ -14,11 +14,11 @@ const beige = Color.fromRGBO(253, 227, 179, 1);
 
 ThemeData appTheme() {
   return ThemeData(
-    colorScheme: const ColorScheme.light(
-      primary: primaryColor,
-      onPrimary: miscColor,
-      secondary: primaryColor,
-    ),
-    fontFamily: 'Rubik',
-  );
+      colorScheme: const ColorScheme.light(
+        primary: primaryColor,
+        onPrimary: miscColor,
+        secondary: primaryColor,
+      ),
+      fontFamily: 'Rubik',
+      buttonTheme: const ButtonThemeData(minWidth: 20, height: 25));
 }

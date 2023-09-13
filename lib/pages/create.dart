@@ -64,6 +64,7 @@ class _CreatePageState extends State<CreatePage> {
     final file = File(selectedImage!.path!);
 
     final ref = storage.child(path);
+
     ref.putFile(file);
   }
 
@@ -155,7 +156,7 @@ class _CreatePageState extends State<CreatePage> {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text('Product Added!'),
-                  duration: Duration(seconds: 3),
+                  duration: Duration(seconds: 1),
                   backgroundColor: green,
                 ));
               },

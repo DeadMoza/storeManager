@@ -396,30 +396,27 @@ class _EditPageState extends State<EditPage> {
                   Row(
                     children: [
                       stat('Brand:   '),
-                      SizedBox(
-                        width: 110,
-                        child: DropdownButton(
-                          iconEnabledColor: primaryColor,
-                          hint: Text(widget.brand),
-                          borderRadius: BorderRadius.circular(5),
-                          icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                          iconSize: 30,
-                          dropdownColor: primaryColor,
-                          value: brandsDropDownValue,
-                          items: brands
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (String? value) {
-                            setState(() {
-                              brandsDropDownValue = value!;
-                              updatedBrand = value;
-                            });
-                          },
-                        ),
+                      DropdownButton(
+                        iconEnabledColor: primaryColor,
+                        hint: Text(widget.brand),
+                        borderRadius: BorderRadius.circular(5),
+                        icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                        iconSize: 30,
+                        dropdownColor: primaryColor,
+                        value: brandsDropDownValue,
+                        items: brands
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (String? value) {
+                          setState(() {
+                            brandsDropDownValue = value!;
+                            updatedBrand = value;
+                          });
+                        },
                       ),
                     ],
                   ),
@@ -427,30 +424,27 @@ class _EditPageState extends State<EditPage> {
                   Row(
                     children: [
                       stat('Type:     '),
-                      SizedBox(
-                        width: 110,
-                        child: DropdownButton(
-                          iconEnabledColor: primaryColor,
-                          hint: Text(widget.type),
-                          borderRadius: BorderRadius.circular(5),
-                          icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                          iconSize: 30,
-                          dropdownColor: primaryColor,
-                          value: typesDropDownValue,
-                          items: types
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (String? value) {
-                            setState(() {
-                              typesDropDownValue = value!;
-                              updatedType = value;
-                            });
-                          },
-                        ),
+                      DropdownButton(
+                        iconEnabledColor: primaryColor,
+                        hint: Text(widget.type),
+                        borderRadius: BorderRadius.circular(5),
+                        icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                        iconSize: 30,
+                        dropdownColor: primaryColor,
+                        value: typesDropDownValue,
+                        items:
+                            types.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (String? value) {
+                          setState(() {
+                            typesDropDownValue = value!;
+                            updatedType = value;
+                          });
+                        },
                       ),
                     ],
                   )

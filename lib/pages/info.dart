@@ -112,7 +112,7 @@ class DetailsPage extends StatelessWidget {
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(const SnackBar(
                                     content: Text('Product Deleted'),
-                                    duration: Duration(seconds: 3),
+                                    duration: Duration(seconds: 1),
                                     backgroundColor: red,
                                   ));
                                 },
@@ -128,21 +128,29 @@ class DetailsPage extends StatelessWidget {
           padding: const EdgeInsets.all(5.0),
           child: Column(
             children: [
-              Container(
-                  width: 400,
-                  height: 350,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.grey[400],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: Image.file(
-                      File(productStatImage),
-                      fit: BoxFit.cover,
-                      width: double.infinity,
+              GestureDetector(
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ImagePage(
+                              image: productStatImage,
+                            ))),
+                child: Container(
+                    width: 400,
+                    height: 350,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.grey[400],
                     ),
-                  )),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Image.file(
+                        File(productStatImage),
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      ),
+                    )),
+              ),
               verticalSpace(),
               GridView.count(
                 mainAxisSpacing: 2,
@@ -167,20 +175,20 @@ class DetailsPage extends StatelessWidget {
                     const Icon(Icons.format_size_rounded),
                     'Sizes',
                     productStatSize,
-                    16,
+                    14,
                   ),
                   colorStatContainer(productStatColor),
                   statContainer(
                     const Icon(Icons.south_america_outlined),
                     'Brand',
                     productStatBrand,
-                    20,
+                    18,
                   ),
                   statContainer(
                     const Icon(Icons.store),
                     'Type',
                     productStatType,
-                    20,
+                    18,
                   ),
                 ],
               ),
@@ -195,6 +203,39 @@ class DetailsPage extends StatelessWidget {
           ),
         ),
       ]),
+    );
+  }
+}
+
+class ImagePage extends StatelessWidget {
+  final String image;
+  const ImagePage({super.key, required this.image});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        toolbarHeight: 36,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_rounded),
+          iconSize: 30,
+          color: primaryColor,
+        ),
+      ),
+      body: SafeArea(
+        child: InteractiveViewer(
+          child: Center(
+            child: Image.file(
+              File(image),
+              fit: BoxFit.fill,
+              width: double.infinity,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
