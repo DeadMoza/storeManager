@@ -127,11 +127,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
             ),
-            const Divider(
-              color: primaryColor,
-              indent: 25,
-              endIndent: 25,
-            ),
             const Text(
               'Releases',
               style: TextStyle(

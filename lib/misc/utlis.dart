@@ -51,11 +51,14 @@ final List<int> availableSizes = <int>[
   54,
   56,
   58,
+  4,
+  5,
   6,
   7,
-  8,
-  9,
 ];
+
+final List<String> stringSizes =
+    availableSizes.map((size) => size.toString()).toList();
 
 List<String> availableColors = <String>[
   'Black',
@@ -74,7 +77,6 @@ Container statContainer(
   double textSize,
 ) {
   return Container(
-    padding: const EdgeInsets.all(6),
     alignment: Alignment.center,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
@@ -109,7 +111,6 @@ Container statContainer(
 Container colorStatContainer(String color) {
   IconData icon = Icons.rectangle_rounded;
   return Container(
-    padding: const EdgeInsets.all(6),
     alignment: Alignment.center,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
@@ -132,54 +133,22 @@ Container colorStatContainer(String color) {
       ),
       Column(
         children: [
-          FittedBox(
-            child: Text(
-              color,
-              style: (color == 'Dark\nBlue' || color == 'Dark\nGreen')
-                  ? const TextStyle(fontSize: 14)
-                  : const TextStyle(fontSize: 20),
-            ),
+          Text(
+            color,
+            style: (color == 'Dark\nBlue' || color == 'Dark\nGreen')
+                ? const TextStyle(fontSize: 15)
+                : const TextStyle(fontSize: 20),
           ),
-          if (color == 'Black')
-            Icon(
-              icon,
-              color: black,
-            )
-          else if (color == 'Blue')
-            Icon(
-              icon,
-              color: blue,
-            )
-          else if (color == 'Dark\nBlue')
-            Icon(
-              icon,
-              color: darkBlue,
-            )
-          else if (color == 'Green')
-            Icon(
-              icon,
-              color: green,
-            )
-          else if (color == 'Dark\nGreen')
-            Icon(
-              icon,
-              color: darkGreen,
-            )
-          else if (color == 'Red')
-            Icon(
-              icon,
-              color: red,
-            )
-          else if (color == 'Purple')
-            Icon(
-              icon,
-              color: purple,
-            )
-          else
-            Icon(
-              icon,
-              color: beige,
-            )
+          switch (color) {
+            'Black' => Icon(icon, color: black),
+            'Blue' => Icon(icon, color: blue),
+            'Dark\nBlue' => Icon(icon, color: darkBlue),
+            'Green' => Icon(icon, color: green),
+            'Dark\nGreen' => Icon(icon, color: darkGreen),
+            'Red' => Icon(icon, color: red),
+            'Purple' => Icon(icon, color: purple),
+            _ => Icon(icon, color: beige)
+          }
         ],
       )
     ]),

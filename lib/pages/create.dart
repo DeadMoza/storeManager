@@ -97,9 +97,8 @@ class _CreatePageState extends State<CreatePage> {
     false,
   ];
 
-  String brandsDropDownValue = brands.first;
-
-  String typesDropDownValue = types.first;
+  String? brandsDropDownValue;
+  String? typesDropDownValue;
 
   List<int> sizes = [];
 
@@ -260,13 +259,9 @@ class _CreatePageState extends State<CreatePage> {
                                   isSelected: selectedSize,
                                   onPressed: (index) {
                                     setState(() {
-                                      for (int i = 0;
-                                          i < selectedSize.length;
-                                          i++) {
-                                        if (i == index) {
-                                          selectedSize[i] = !selectedSize[i];
-                                        }
-                                      }
+                                      selectedSize[index] =
+                                          !selectedSize[index];
+
                                       for (int i = 0;
                                           i < availableSizes.length;
                                           i++) {
@@ -284,24 +279,9 @@ class _CreatePageState extends State<CreatePage> {
                                   selectedColor: miscColor,
                                   selectedBorderColor: miscColor,
                                   fillColor: primaryColor,
-                                  children: const [
-                                    Text('36'),
-                                    Text('38'),
-                                    Text('40'),
-                                    Text('42'),
-                                    Text('44'),
-                                    Text('46'),
-                                    Text('48'),
-                                    Text('50'),
-                                    Text('52'),
-                                    Text('54'),
-                                    Text('56'),
-                                    Text('58'),
-                                    Text('6'),
-                                    Text('7'),
-                                    Text('8'),
-                                    Text('9'),
-                                  ]),
+                                  children: stringSizes
+                                      .map((size) => Text(size))
+                                      .toList()),
                             ],
                           ),
                         ),
@@ -364,8 +344,10 @@ class _CreatePageState extends State<CreatePage> {
                   verticalSpace(),
                   Row(
                     children: [
-                      stat('Brand: '),
+                      stat('Brand:   '),
                       DropdownButton(
+                        hint: const Text('Choose Brand'),
+                        iconEnabledColor: primaryColor,
                         borderRadius: BorderRadius.circular(5),
                         icon: const Icon(Icons.keyboard_arrow_down_rounded),
                         iconSize: 30,
@@ -390,8 +372,10 @@ class _CreatePageState extends State<CreatePage> {
                   verticalSpace(),
                   Row(
                     children: [
-                      stat('Type: '),
+                      stat('Type:     '),
                       DropdownButton(
+                        hint: const Text('Choose Type'),
+                        iconEnabledColor: primaryColor,
                         borderRadius: BorderRadius.circular(5),
                         icon: const Icon(Icons.keyboard_arrow_down_rounded),
                         iconSize: 30,
@@ -413,6 +397,19 @@ class _CreatePageState extends State<CreatePage> {
                       ),
                     ],
                   ),
+                  verticalSpace(),
+                  const Divider(
+                    indent: 20,
+                    endIndent: 20,
+                    color: primaryColor,
+                  ),
+                  verticalSpace(),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '4 =   L    = 44-46\n5 =  XL   = 46-48\n6 = XXL = 48-50\n7 = 3XL =  52-54',
+                    ),
+                  )
                 ],
               ),
             )

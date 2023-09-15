@@ -63,25 +63,6 @@ class _EditPageState extends State<EditPage> {
   String? brandsDropDownValue;
   String? typesDropDownValue;
 
-  final List<String> availableSize = <String>[
-    '36',
-    '38',
-    '40',
-    '42',
-    '44',
-    '46',
-    '48',
-    '50',
-    '52',
-    '54',
-    '56',
-    '58',
-    '6',
-    '7',
-    '8',
-    '9',
-  ];
-
   List<bool> selectedSize = <bool>[];
   List<bool> selectedColor = <bool>[];
 
@@ -121,8 +102,11 @@ class _EditPageState extends State<EditPage> {
   @override
   void initState() {
     super.initState();
-    List<int> intPreSelectedSize =
-        widget.size.map((str) => int.parse(str)).toList();
+    List<int> intPreSelectedSize = <int>[];
+
+    if (widget.size.isNotEmpty) {
+      intPreSelectedSize = widget.size.map((str) => int.parse(str)).toList();
+    }
 
     selectedColor = List.generate(availableColors.length,
         (index) => widget.color == availableColors[index]);
@@ -328,7 +312,7 @@ class _EditPageState extends State<EditPage> {
                                 selectedColor: miscColor,
                                 selectedBorderColor: miscColor,
                                 fillColor: primaryColor,
-                                children: availableSize
+                                children: stringSizes
                                     .map((size) => Text(size))
                                     .toList(),
                               ),
@@ -447,6 +431,19 @@ class _EditPageState extends State<EditPage> {
                         },
                       ),
                     ],
+                  ),
+                  verticalSpace(),
+                  const Divider(
+                    indent: 20,
+                    endIndent: 20,
+                    color: primaryColor,
+                  ),
+                  verticalSpace(),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '4 =   L    = 44-46\n5 =  XL   = 46-48\n6 = XXL = 48-50\n7 = 3XL =  52-54',
+                    ),
                   )
                 ],
               ),

@@ -172,23 +172,23 @@ class DetailsPage extends StatelessWidget {
                     20,
                   ),
                   statContainer(
-                    const Icon(Icons.format_size_rounded),
+                    const Icon(Icons.shopping_bag),
                     'Sizes',
                     productStatSize,
-                    14,
+                    15,
                   ),
                   colorStatContainer(productStatColor),
                   statContainer(
                     const Icon(Icons.south_america_outlined),
                     'Brand',
                     productStatBrand,
-                    18,
+                    20,
                   ),
                   statContainer(
-                    const Icon(Icons.store),
+                    const Icon(Icons.category_rounded),
                     'Type',
                     productStatType,
-                    18,
+                    20,
                   ),
                 ],
               ),
@@ -196,7 +196,7 @@ class DetailsPage extends StatelessWidget {
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  '6 =   L    = 42-44\n7 =  XL   = 46-48\n8 = XXL = 50-52\n9 = 3XL = 54-56',
+                  '4 =   L    = 44-46\n5 =  XL   = 46-48\n6 = XXL = 48-50\n7 = 3XL = 52-54',
                 ),
               )
             ],
@@ -230,7 +230,7 @@ class ImagePage extends StatelessWidget {
           child: Center(
             child: Image.file(
               File(image),
-              fit: BoxFit.fill,
+              fit: BoxFit.contain,
               width: double.infinity,
             ),
           ),
