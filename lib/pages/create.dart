@@ -30,7 +30,6 @@ Future createProduct(
   String color,
   String brand,
   String type,
-  String image,
 ) async {
   final docProduct = db.collection('products').doc();
   final json = {
@@ -40,7 +39,6 @@ Future createProduct(
     'color': color,
     'brand': brand,
     'type': type,
-    'image': image,
     'image_name': selectedImage!.name,
     'id': docProduct.id
   };
@@ -65,7 +63,7 @@ class _CreatePageState extends State<CreatePage> {
 
     final ref = storage.child(path);
 
-    ref.putFile(file);
+    await ref.putFile(file);
   }
 
   final List<bool> selectedSize = <bool>[
@@ -139,17 +137,10 @@ class _CreatePageState extends State<CreatePage> {
               onPressed: () {
                 final productPrice = int.parse(priceController.text);
                 final productCode = codeController.text;
-                final productImage = selectedImage!.path!;
+
                 sizes.sort();
-                createProduct(
-                  productPrice,
-                  productCode,
-                  sizes,
-                  choosenColor!,
-                  choosenBrand!,
-                  choosenType!,
-                  productImage,
-                );
+                createProduct(productPrice, productCode, sizes, choosenColor!,
+                    choosenBrand!, choosenType!);
                 uploadFile();
                 selectedImage = null;
                 Navigator.pop(context);

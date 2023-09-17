@@ -223,7 +223,6 @@ class _PrimaryPageState extends State<PrimaryPage> {
               String color = doc['color'];
               String brand = doc['brand'];
               String type = doc['type'];
-              String image = doc['image'];
               String imageName = doc['image_name'];
               String id = doc['id'];
 
@@ -241,7 +240,6 @@ class _PrimaryPageState extends State<PrimaryPage> {
                                   productStatColor: color,
                                   productStatBrand: brand,
                                   productStatType: type,
-                                  productStatImage: image,
                                   productStatImageName: imageName,
                                   productStatId: id,
                                 )));

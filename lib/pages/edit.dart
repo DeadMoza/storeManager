@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:elshamistore/misc/theme.dart';
 import 'package:elshamistore/misc/utlis.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'info.dart';
 
@@ -12,7 +13,7 @@ class EditPage extends StatefulWidget {
   final String color;
   final String brand;
   final String type;
-  final String image;
+
   final String imageName;
   final String id;
 
@@ -21,10 +22,9 @@ class EditPage extends StatefulWidget {
       required this.price,
       required this.code,
       required this.size,
+      required this.color,
       required this.brand,
       required this.type,
-      required this.image,
-      required this.color,
       required this.imageName,
       required this.id});
 
@@ -42,7 +42,7 @@ class _EditPageState extends State<EditPage> {
     String? updatedColor,
     String? updatedBrand,
     String? updatedType,
-    String? updatedImage,
+    String updatedImageName,
   ) async {
     final docProduct = db.collection('products').doc(widget.id);
     final json = {
@@ -52,7 +52,7 @@ class _EditPageState extends State<EditPage> {
       'color': updatedColor,
       'brand': updatedBrand,
       'type': updatedType,
-      'image': updatedImage,
+      'image_name': updatedImageName
     };
     await docProduct.update(json);
   }
@@ -74,10 +74,27 @@ class _EditPageState extends State<EditPage> {
         fit: BoxFit.cover,
       );
     } else {
-      return Image.file(
-        File(widget.image),
+      return Image.network(
+        'https://firebasestorage.googleapis.com/v0/b/elshamistore-c6810.appspot.com/o/productImages%2F${widget.imageName}?alt=media',
         width: double.infinity,
         fit: BoxFit.cover,
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Center(
+              child: CircularProgressIndicator(
+            color: miscColor,
+            semanticsLabel: 'Loading',
+            value: loadingProgress.expectedTotalBytes != null
+                ? loadingProgress.cumulativeBytesLoaded /
+                    loadingProgress.expectedTotalBytes!
+                : null,
+          ));
+        },
+        errorBuilder: (context, error, stackTrace) {
+          // ignore: avoid_print
+          print('Error Loading Image In Home Page $error');
+          return const Center(child: Text('Error Loading Image'));
+        },
       );
     }
   }
@@ -91,12 +108,17 @@ class _EditPageState extends State<EditPage> {
     }
   }
 
-  Future uploadEditedImage() async {
-    final path = 'productImages/${widget.imageName}';
-    final file = File(selectedImage!.path!);
+  Future uploadEditedImage(String pathy) async {
+    final String oldPath = 'productImages/${widget.imageName}';
+    final String newPath = 'productImages/$pathy';
 
-    final ref = storage.child(path);
-    ref.putFile(file);
+    final File file = File(selectedImage!.path!);
+
+    final Reference ref = storage.child(oldPath);
+    final Reference newRef = storage.child(newPath);
+
+    await ref.delete();
+    await newRef.putFile(file);
   }
 
   @override
@@ -104,7 +126,7 @@ class _EditPageState extends State<EditPage> {
     super.initState();
     List<int> intPreSelectedSize = <int>[];
 
-    if (widget.size.isNotEmpty) {
+    if (widget.size[0] != '') {
       intPreSelectedSize = widget.size.map((str) => int.parse(str)).toList();
     }
 
@@ -143,6 +165,7 @@ class _EditPageState extends State<EditPage> {
               child: const Text('CANCEL',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               onPressed: () {
+                selectedImage = null;
                 Navigator.pop(context);
               },
             ),
@@ -156,7 +179,8 @@ class _EditPageState extends State<EditPage> {
               onPressed: () {
                 String updatedPrice = priceController.text;
                 String? updatedCode = codeController.text;
-                String? updatedImage;
+
+                String updatedImageName = widget.imageName;
 
                 if (priceController.text.isEmpty) {
                   updatedPrice = widget.price;
@@ -174,14 +198,19 @@ class _EditPageState extends State<EditPage> {
                 List<int> sizes = updatedSizeSet.toList();
 
                 if (selectedImage != null) {
-                  updatedImage = selectedImage!.path!;
-                  uploadEditedImage();
-                } else {
-                  updatedImage = widget.image;
+                  updatedImageName = selectedImage!.name;
+                  uploadEditedImage(updatedImageName);
                 }
 
-                updateProduct(int.parse(updatedPrice), updatedCode, sizes,
-                    updatedColor, updatedBrand, updatedType, updatedImage);
+                updateProduct(
+                  int.parse(updatedPrice),
+                  updatedCode,
+                  sizes,
+                  updatedColor,
+                  updatedBrand,
+                  updatedType,
+                  updatedImageName,
+                );
                 selectedImage = null;
                 Navigator.push(
                     context,
@@ -193,8 +222,7 @@ class _EditPageState extends State<EditPage> {
                               productStatColor: updatedColor!,
                               productStatBrand: updatedBrand!,
                               productStatType: updatedType!,
-                              productStatImage: updatedImage!,
-                              productStatImageName: widget.imageName,
+                              productStatImageName: updatedImageName,
                               productStatId: widget.id,
                             )));
               },

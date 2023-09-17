@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:elshamistore/misc/theme.dart';
 import 'package:flutter/material.dart';
 import '../misc/utlis.dart';
@@ -12,7 +10,6 @@ class DetailsPage extends StatelessWidget {
   final String productStatColor;
   final String productStatBrand;
   final String productStatType;
-  final String productStatImage;
   final String productStatImageName;
   final String productStatId;
   const DetailsPage(
@@ -23,7 +20,6 @@ class DetailsPage extends StatelessWidget {
       required this.productStatColor,
       required this.productStatBrand,
       required this.productStatType,
-      required this.productStatImage,
       required this.productStatImageName,
       required this.productStatId});
 
@@ -56,7 +52,6 @@ class DetailsPage extends StatelessWidget {
                             color: productStatColor,
                             brand: productStatBrand,
                             type: productStatType,
-                            image: productStatImage,
                             imageName: productStatImageName,
                             id: productStatId)));
               },
@@ -133,7 +128,7 @@ class DetailsPage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ImagePage(
-                              image: productStatImage,
+                              image: productStatImageName,
                             ))),
                 child: Container(
                     width: 400,
@@ -144,10 +139,26 @@ class DetailsPage extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(5),
-                      child: Image.file(
-                        File(productStatImage),
+                      child: Image.network(
+                        'https://firebasestorage.googleapis.com/v0/b/elshamistore-c6810.appspot.com/o/productImages%2F$productStatImageName?alt=media',
                         fit: BoxFit.cover,
                         width: double.infinity,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                              child: CircularProgressIndicator(
+                            color: miscColor,
+                            semanticsLabel: 'Loading',
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : null,
+                          ));
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Center(
+                              child: Text('Error Loading Image'));
+                        },
                       ),
                     )),
               ),
@@ -164,18 +175,21 @@ class DetailsPage extends StatelessWidget {
                     'Price',
                     productStatPrice,
                     20,
+                    15,
                   ),
                   statContainer(
                     const Icon(Icons.code_rounded),
                     'Code',
                     productStatCode,
                     20,
+                    15,
                   ),
                   statContainer(
                     const Icon(Icons.shopping_bag),
                     'Sizes',
                     productStatSize,
-                    15,
+                    14,
+                    1,
                   ),
                   colorStatContainer(productStatColor),
                   statContainer(
@@ -183,12 +197,14 @@ class DetailsPage extends StatelessWidget {
                     'Brand',
                     productStatBrand,
                     20,
+                    10,
                   ),
                   statContainer(
                     const Icon(Icons.category_rounded),
                     'Type',
                     productStatType,
                     20,
+                    10,
                   ),
                 ],
               ),
@@ -223,15 +239,31 @@ class ImagePage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_rounded),
           iconSize: 30,
           color: primaryColor,
+          splashRadius: 15,
         ),
       ),
       body: SafeArea(
         child: InteractiveViewer(
           child: Center(
-            child: Image.file(
-              File(image),
+            child: Image.network(
+              'https://firebasestorage.googleapis.com/v0/b/elshamistore-c6810.appspot.com/o/productImages%2F$image?alt=media',
               fit: BoxFit.contain,
               width: double.infinity,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Center(
+                    child: CircularProgressIndicator(
+                  color: miscColor,
+                  semanticsLabel: 'Loading',
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                      : null,
+                ));
+              },
+              errorBuilder: (context, error, stackTrace) {
+                return const Center(child: Text('Error Loading Image'));
+              },
             ),
           ),
         ),

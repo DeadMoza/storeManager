@@ -75,6 +75,7 @@ Container statContainer(
   String statTitle,
   String statValue,
   double textSize,
+  double space,
 ) {
   return Container(
     alignment: Alignment.center,
@@ -94,8 +95,8 @@ Container statContainer(
           )
         ],
       ),
-      const SizedBox(
-        height: 10,
+      SizedBox(
+        height: space,
       ),
       Text(
         statValue,
