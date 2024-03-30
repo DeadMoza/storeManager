@@ -470,7 +470,7 @@ class _EditPageState extends State<EditPage> {
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      '4 =   L    = 44-46\n5 =  XL   = 46-48\n6 = XXL = 48-50\n7 = 3XL =  52-54',
+                      '2 = S = 34-36 \n3 = M = 38-40 \n4 = L = 42-44 \n5 = XL = 46-48 \n6 = XXL = 50-52 \n7 = 3XL = 52-54 \n8 = 4XL = 54-56',
                     ),
                   )
                 ],

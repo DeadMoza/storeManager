@@ -51,10 +51,13 @@ final List<int> availableSizes = <int>[
   54,
   56,
   58,
+  2,
+  3,
   4,
   5,
   6,
   7,
+  8,
 ];
 
 final List<String> stringSizes =
