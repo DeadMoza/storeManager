@@ -8,6 +8,5 @@ With the use of the flutter framework and Firebase as a backend.
 - Keep track and edit each product's stats such as its price, available sizes, code, color, brand and type.
 - Uploading images for reference.
 
-As of now this app is private due to the unavailability of a suitable backend that would support a global release on the App store/Google play store.
-Released: 17/9/2023.
+As of now this app is private.
 
