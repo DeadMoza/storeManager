@@ -7,6 +7,3 @@ With the use of the flutter framework and Firebase as a backend.
 - Quick way to search for products by thier code, brand and type.
 - Keep track and edit each product's stats such as its price, available sizes, code, color, brand and type.
 - Uploading images for reference.
-
-As of now this app is private.
-
