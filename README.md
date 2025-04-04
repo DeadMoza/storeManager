@@ -1,5 +1,5 @@
-## This is an app to manage a local clothing shop's products.
-With the use of the flutter framework and Firebase as a backend.
+## A cross platform store manager mobile application.
+Built with flutter and firebase.
 
 ### It allows for:
 - Keeping track of products and their availability.
